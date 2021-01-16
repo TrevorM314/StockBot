@@ -15,3 +15,22 @@ inFile = open("watchlist.txt", "r")
 for line in inFile:
     watchlist.append(line.rstrip("\n"))
 inFile.close()
+
+# Function Definitions
+def calc50DayAvg(symbols):
+    avg50Days = {}
+    barset = api.get_barset(symbols, "1D", limit=50)
+    for symbol in symbols:
+        runningTotal = 0
+        for barEntry in barset[symbol]:
+            close = barEntry.c
+            runningTotal += close
+        avg50Days[symbol] = runningTotal / 50
+    return avg50Days
+
+
+def main():
+    print( calc50DayAvg(watchlist) )
+
+
+main()
